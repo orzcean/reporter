@@ -92,42 +92,7 @@ function insert_article()
     $sn = $db->insert_id;
     // insert_id送出後請求流水號
 
-    // 上傳時自動將首頁封面縮圖
-    if (isset($_FILES)) {
-        require_once 'class.upload.php';
-        $foo = new Upload($_FILES['pic']);
-        // 從op_article_form接收pic
-        if ($foo->uploaded) {
-            // save uploaded image with a new name
-            $foo->file_new_name_body = 'cover_' . $sn;
-            $foo->image_resize       = true;
-            $foo->image_convert      = png;
-            $foo->image_x            = 1200;
-            $foo->image_ratio_y      = true;
-            // 等比例縮放高度
-            $foo->Process('uploads/');
-            // 將以上大圖圖片屬性設定完後，將圖片搬移到uploads資料夾
-            if ($foo->processed) {
-                $foo->file_new_name_body = 'thumb_' . $sn;
-                $foo->image_resize       = true;
-                $foo->image_convert      = png;
-                $foo->image_x            = 400;
-                $foo->image_ratio_y      = true;
-                $foo->Process('uploads/');
-                // 將以上小圖圖片屬性設定完後，將圖片搬移到uploads資料夾
-            }
-        }
-
-        // $ext = pathinfo($_FILES['pic']['name'], PATHINFO_EXTENSION);
-        // // 自動抓取附檔名的語法
-        // if (!is_dir('uploads')) {
-        //     mkdir('uploads');
-        // }
-        // // 如果沒有uploads的資料夾的話 建一個uploads資料夾
-        // move_uploaded_file($_FILES['pic']['tmp_name'], "uploads/{$sn}.{$ext}");
-        // // move_uploaded_file(暫存檔 , 新路徑檔名)
-
-    }
+    upload_pic($sn);
 
     return $sn;
     // 因為$title $content是存入資料庫即可的動作，所以不用return出去了
@@ -141,6 +106,10 @@ function delete_article($sn)
     $sql = "DELETE FROM `article` WHERE sn='{$sn}' and username='{$_SESSION['username']}'";
     $db->query($sql) or die($db->error);
 
+    if (file_exists("uploads/cover_{$sn}.png")) {
+        unlink("uploads/cover_{$sn}.png");
+        unlink("uploads/thumb_{$sn}.png");
+    }
 }
 
 //更新文章
@@ -151,7 +120,7 @@ function update_article($sn)
     $content  = $db->real_escape_string($_POST['content']);
     $username = $db->real_escape_string($_POST['username']);
 
-    $sql = "UPDATE `article` SET `title`='{$title}', `content`='{$content}', `update_time`= NOW() WHERE `sn`='{$sn}'";
+    $sql = "UPDATE `article` SET `title`='{$title}', `content`='{$content}', `update_time`= NOW() WHERE `sn`='{$sn}' and username='{$_SESSION['username']}'";
     $db->query($sql) or die($db->error);
 
     upload_pic($sn);
@@ -185,3 +154,12 @@ function upload_pic($sn)
         }
     }
 }
+
+// $ext = pathinfo($_FILES['pic']['name'], PATHINFO_EXTENSION);
+// // 自動抓取附檔名的語法
+// if (!is_dir('uploads')) {
+//     mkdir('uploads');
+// }
+// // 如果沒有uploads的資料夾的話 建一個uploads資料夾
+// move_uploaded_file($_FILES['pic']['tmp_name'], "uploads/{$sn}.{$ext}");
+// // move_uploaded_file(暫存檔 , 新路徑檔名)
