@@ -44,6 +44,11 @@ switch ($op) {
         show_article($sn);
         break;
 
+    case 'update';
+        update_article($sn);
+        header("location: index.php?sn={$sn}");
+        exit;
+
     default;
         $op = "";
         break;
@@ -136,4 +141,40 @@ function delete_article($sn)
     $sql = "DELETE FROM `article` WHERE sn='{$sn}' and username='{$_SESSION['username']}'";
     $db->query($sql) or die($db->error);
 
+}
+
+//更新文章
+function update_article($sn)
+{
+    global $db;
+    $title    = $db->real_escape_string($_POST['title']);
+    $content  = $db->real_escape_string($_POST['content']);
+    $username = $db->real_escape_string($_POST['username']);
+
+    $sql = "UPDATE `article` SET `title`='{$title}', `content`='{$content}', `update_time`= NOW() WHERE `sn`='{$sn}'";
+    $db->query($sql) or die($db->error);
+
+    if (isset($_FILES)) {
+        require_once 'class.upload.php';
+        $foo = new Upload($_FILES['pic']);
+        if ($foo->uploaded) {
+            // save uploaded image with a new name
+            $foo->file_new_name_body = 'cover_' . $sn;
+            $foo->image_resize       = true;
+            $foo->image_convert      = png;
+            $foo->image_x            = 1200;
+            $foo->image_ratio_y      = true;
+            $foo->Process('uploads/');
+            if ($foo->processed) {
+                $foo->file_new_name_body = 'thumb_' . $sn;
+                $foo->image_resize       = true;
+                $foo->image_convert      = png;
+                $foo->image_x            = 400;
+                $foo->image_ratio_y      = true;
+                $foo->Process('uploads/');
+            }
+        }
+    }
+
+    return $sn;
 }
