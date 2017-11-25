@@ -154,6 +154,15 @@ function update_article($sn)
     $sql = "UPDATE `article` SET `title`='{$title}', `content`='{$content}', `update_time`= NOW() WHERE `sn`='{$sn}'";
     $db->query($sql) or die($db->error);
 
+    upload_pic($sn);
+
+    return $sn;
+}
+
+//上傳團片
+function upload_pic($sn)
+{
+
     if (isset($_FILES)) {
         require_once 'class.upload.php';
         $foo = new Upload($_FILES['pic']);
@@ -175,6 +184,4 @@ function update_article($sn)
             }
         }
     }
-
-    return $sn;
 }
