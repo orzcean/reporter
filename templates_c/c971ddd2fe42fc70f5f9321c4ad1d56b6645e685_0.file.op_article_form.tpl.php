@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2017-11-18 02:45:16
+/* Smarty version 3.1.30, created on 2017-11-25 08:19:42
   from "F:\bonphp\UniServerZ\www\reporter\templates\op_article_form.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5a0f9ebc984aa8_44528211',
+  'unifunc' => 'content_5a19279e6f35e4_43096725',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c971ddd2fe42fc70f5f9321c4ad1d56b6645e685' => 
     array (
       0 => 'F:\\bonphp\\UniServerZ\\www\\reporter\\templates\\op_article_form.tpl',
-      1 => 1510972824,
+      1 => 1511597931,
       2 => 'file',
     ),
   ),
@@ -20,20 +20,29 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5a0f9ebc984aa8_44528211 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5a19279e6f35e4_43096725 (Smarty_Internal_Template $_smarty_tpl) {
 echo '<script'; ?>
+ src="js/languages/jquery.validationEngine-zh_TW.js" type="text/javascript" charset="utf-8"><?php echo '</script'; ?>
+>
+<?php echo '<script'; ?>
+ src="js/jquery.validationEngine.js" type="text/javascript" charset="utf-8"><?php echo '</script'; ?>
+>
+<link rel="stylesheet" href="css/validationEngine.jquery.css" type="text/css">
+
+
+<?php echo '<script'; ?>
  src="ckeditor/ckeditor.js"><?php echo '</script'; ?>
 >
 
-<form action="admin.php" method="post" enctype="multipart/form-data">
+<form action="admin.php" method="post" enctype="multipart/form-data" form id="myform">
     <!-- 有file欄位時必加語法enctype="multipart/form-data" -->
     <div class="form-group">
         <label for="title" class="col-form-label text-white">文章標題</label>
-        <input type="text" class="form-control" name="title" id="title" placeholder="請輸入文章標題">
+        <input type="text" class="form-control validate[required]" name="title" id="title" placeholder="請輸入文章標題">
     </div>
     <div class="form-group">
         <label for="content" class="col-form-label text-white">文章內容</label>
-        <textarea name="content" id="content" rows="20" class="form-control" placeholder="請輸入文章內容"></textarea>
+        <textarea name="content" id="content" rows="20" class="form-control validate[required, minSize[10]]" placeholder="請輸入文章內容"></textarea>
     </div>
     <div class="form-group">
         <label for="title" class="col-form-label text-white">封面圖</label>
@@ -51,6 +60,9 @@ echo '<script'; ?>
 >
     CKEDITOR.replace('content');
 // 對應到上面的id=content，所以會顯現出ckeditor
+        $(document).ready(function () {
+            $('#myform').validationEngine({ promptPosition: "bottomLeft" });
+        });
 
 <?php echo '</script'; ?>
 ><?php }
