@@ -1,0 +1,22 @@
+左邊的$db是物件 $db->....
+內容是$db= new...
+
+$db=xxx 變數
+function xxx(){}; 函數
+
+$db->xxx()
+    xxx為$db裡面的成員方法、函數
+    $db->ooo;
+    ooo為$db裡面的成員變數
+    #db=new ...
+  ->右邊的東西通常是物件裡內建的功能
+
+
+超級全域變數
+$_GET 傳遞資訊用
+$_POST 傳遞資訊用
+$_REQUEST 傳遞資訊用 可接收POST GET COOKIE
+$_COOKIE 記錄用 記住在個人電腦端 如登入帳號記住我
+$_SESSION 記錄用 記錄在主機端
+$_FILES 檔案上傳時產生
+$_SERVER 系統環境變數
