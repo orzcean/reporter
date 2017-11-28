@@ -22,6 +22,7 @@
     </div>
     <div class="text-center">
         <input type="hidden" name="sn" value="{$article.sn}">
+        <!-- 告知要更新哪一篇文章，如果沒告知 所有文章都會被更新 -->
         <input type="hidden" name="op" value="update">
         <input type="hidden" name="username" value="{$smarty.session.username}">
         <button type="submit" class="btn btn-primary">更新</button></button>

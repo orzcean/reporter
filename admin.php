@@ -42,10 +42,12 @@ switch ($op) {
 
     case 'modify_article':
         show_article($sn);
+        //sn來源 <input type="hidden" name="sn" value="{$article.sn}">
         break;
 
     case 'update';
         update_article($sn);
+        //sn來源 <input type="hidden" name="sn" value="{$article.sn}">
         header("location: index.php?sn={$sn}");
         exit;
 
