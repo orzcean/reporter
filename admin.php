@@ -42,7 +42,7 @@ switch ($op) {
 
     case 'modify_article':
         show_article($sn);
-        //sn來源 <input type="hidden" name="sn" value="{$article.sn}">
+        //sn來源  <input type="hidden" name="sn" value="{$article.sn}">
         break;
 
     case 'update';
