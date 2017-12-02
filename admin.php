@@ -46,6 +46,7 @@ switch ($op) {
         break;
 
     case 'update';
+        // op_modify_article裡的 <input type="hidden" name="op" value="update">
         update_article($sn);
         //sn來源 <input type="hidden" name="sn" value="{$article.sn}">
         header("location: index.php?sn={$sn}");
@@ -111,6 +112,7 @@ function delete_article($sn)
     if (file_exists("uploads/cover_{$sn}.png")) {
         unlink("uploads/cover_{$sn}.png");
         unlink("uploads/thumb_{$sn}.png");
+        // 刪除uploads資料夾裡的檔案
     }
 }
 
